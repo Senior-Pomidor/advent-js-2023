@@ -1,48 +1,28 @@
 const $minutesInput = document.querySelector('#minutesInput')
 const $secondsInput = document.querySelector('#secondsInput')
-const $startBtn = document.querySelector('#startBtn')
+const $toggleTimerBtn = document.querySelector('#toggleTimerBtn')
 const $settingsBtn = document.querySelector('#settingsBtn')
-const $ring = document.querySelector('.ring')
 
 let interval = null
-let isSettingMode = false
-
-const updateSettingMode = isOn => {
-    isSettingMode = isOn
-
-    if (isOn) {
-        $minutesInput.removeAttribute('disabled')
-        $secondsInput.removeAttribute('disabled')
-
-        return
-    }
-
-    $minutesInput.setAttribute('disabled', true)
-    $secondsInput.setAttribute('disabled', true)
-}
 
 const stopTimer = () => {
     clearInterval(interval)
     interval = null
-    $startBtn.textContent = 'start'
+    $toggleTimerBtn.textContent = 'start'
 }
 
 const startTimer = () => {
-    updateSettingMode(false)
-
     let minutes = parseInt($minutesInput.value)
     let seconds = parseInt($secondsInput.value)
     let totalSeconds = parseInt(minutes * 60 + seconds)
 
     if (!totalSeconds) {
-        
         stopTimer()
 
         return
     }
 
-    $startBtn.textContent = 'pause'
-    $ring.classList.remove('ending')
+    $toggleTimerBtn.textContent = 'pause'
 
     interval = setInterval(() => {
         totalSeconds--
@@ -59,7 +39,6 @@ const startTimer = () => {
             : seconds
 
         if (totalSeconds == 0) {
-            $ring.classList.add('ending')
             stopTimer()
         }
     }, 1000)
@@ -75,10 +54,7 @@ const toggleTimer = () => {
     startTimer()
 }
 
-$startBtn.addEventListener('click', toggleTimer)
-$settingsBtn.addEventListener('click', () => {
-    updateSettingMode(!isSettingMode)
-})
+$toggleTimerBtn.addEventListener('click', toggleTimer)
 
 
 const restrictToInteger = evt => {
@@ -87,3 +63,4 @@ const restrictToInteger = evt => {
 
 $minutesInput.addEventListener('input', restrictToInteger)
 $secondsInput.addEventListener('input', restrictToInteger)
+
