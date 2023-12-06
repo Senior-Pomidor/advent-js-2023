@@ -10,6 +10,10 @@ body {
   justify-content: center;
 }
 
+.piano path {
+  cursor: pointer;
+}
+
 .white-keys {
  fill: white;
 }
